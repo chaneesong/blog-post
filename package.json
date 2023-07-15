@@ -1,0 +1,23 @@
+{
+  "name": "blog-post",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "validate-markdown-headers.js",
+  "scripts": {
+    "check": "node .github/workflows/validate-markdown-headers/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chaneesong/blog-post.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chaneesong/blog-post/issues"
+  },
+  "homepage": "https://github.com/chaneesong/blog-post#readme",
+  "dependencies": {
+    "ts-node": "^10.9.1"
+  }
+}
