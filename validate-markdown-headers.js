@@ -19,12 +19,14 @@ function checkHeaderValidity(file) {
     const [key, value] = line.split(':').map((item) => item.trim());
     headers[key.toLowerCase()] = value;
   });
-
+  console.log('current file', headers);
   // Perform header validations
   const title = headers['title'];
   const createdAt = headers['createdat'];
   const category = headers['category'];
   const tags = headers['tags'];
+  const tagsArray = JSON.parse(tags.replace(/'/g, '"'));
+  console.log(tagsArray);
 
   // Title duplication check
   const existingTitles = getExistingTitles(); // Retrieve existing titles from your repository
@@ -60,7 +62,6 @@ function getExistingTitles() {
 
     const headerPattern = /^---\n([\s\S]*?)\n---/m;
     const headerMatch = content.match(headerPattern);
-    console.log(headerPattern);
 
     if (headerMatch) {
       const header = headerMatch[1];
@@ -72,7 +73,7 @@ function getExistingTitles() {
         headersObj[key] = value;
       });
 
-      headers.push(headersObj);
+      headers.push(headersObj['title']);
     }
   });
 
