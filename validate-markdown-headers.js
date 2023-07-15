@@ -48,9 +48,33 @@ function checkHeaderValidity(file) {
 
 // Example function to retrieve existing titles
 function getExistingTitles() {
-  // Implement your logic to retrieve existing titles from your repository
-  // For example, you can fetch the titles from an API or read them from a file
-  return ['Existing Title 1', 'Existing Title 2', 'Existing Title 3'];
+  const files = fs.readdirSync('./');
+
+  const markdownFiles = files.filter((file) => file.endsWith('.md'));
+  const headers = [];
+
+  markdownFiles.forEach((file) => {
+    const filePath = path.join('./', file);
+    const content = fs.readFileSync(filePath, 'utf-8');
+
+    const headerPattern = /^---\n([\s\S]*?)\n---/m;
+    const headerMatch = content.match(headerPattern);
+
+    if (headerMatch) {
+      const header = headerMatch[1];
+      const lines = header.split('\n');
+
+      const headersObj = {};
+      lines.forEach((line) => {
+        const [key, value] = line.split(':').map((item) => item.trim());
+        headersObj[key] = value;
+      });
+
+      headers.push(headersObj);
+    }
+  });
+
+  return headers;
 }
 
 // Read all Markdown files and validate headers
