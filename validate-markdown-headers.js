@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 
 function checkHeaderValidity(file) {
   const content = fs.readFileSync(file, 'utf-8');
