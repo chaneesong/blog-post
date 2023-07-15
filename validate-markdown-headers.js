@@ -35,8 +35,10 @@ function checkHeaderValidity(file) {
     process.exit(1);
   }
 
+  const date = new Date();
+  const now = date.setHours(date.getHours() + 9);
   // createdAt future date check
-  if (new Date(createdAt) > new Date()) {
+  if (new Date(createdAt) > now) {
     console.error(`Error: Future createdAt date found in ${file}`);
     process.exit(1);
   }
