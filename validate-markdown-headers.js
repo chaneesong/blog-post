@@ -50,7 +50,6 @@ function checkHeaderValidity(file) {
 // Example function to retrieve existing titles
 function getExistingTitles() {
   const files = fs.readdirSync('./');
-  console.log(files);
 
   const markdownFiles = files.filter((file) => file.endsWith('.md'));
   const headers = [];
@@ -61,6 +60,7 @@ function getExistingTitles() {
 
     const headerPattern = /^---\n([\s\S]*?)\n---/m;
     const headerMatch = content.match(headerPattern);
+    console.log(headerPattern);
 
     if (headerMatch) {
       const header = headerMatch[1];
