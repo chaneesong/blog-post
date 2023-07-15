@@ -1,0 +1,25 @@
+name: Check Markdown Header Validity
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check_header:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Check Markdown Header
+        run: |
+          node validate-markdown-headers.js
