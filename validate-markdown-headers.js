@@ -30,7 +30,7 @@ function checkHeaderValidity(file) {
 
   // Title duplication check
   const existingTitles = getExistingTitles(); // Retrieve existing titles from your repository
-  if (existingTitles.includes(title).length > 1) {
+  if (existingTitles.find((element) => element === title)) {
     console.error(`Error: Duplicate title found in ${file}`);
     process.exit(1);
   }
