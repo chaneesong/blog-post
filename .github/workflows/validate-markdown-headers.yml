@@ -29,5 +29,5 @@ jobs:
         run: |
           for file in $files; do
               echo "Check $file Header"
-              npm run check ${{ github.event.head_commit.modified[0] }}
+              npm run check $file
             done
