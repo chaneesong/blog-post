@@ -1,7 +1,7 @@
 import checkHeaderValidity from './checkHeaderValidity/index.js';
 
 // Read all Markdown files and validate headers
-const file = process.argv[1];
+const file = process.argv[2];
 let hasValidationFailed = false;
 
 if (file.endsWith('.md')) {
