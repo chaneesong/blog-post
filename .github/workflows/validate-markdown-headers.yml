@@ -20,13 +20,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Get Pushed Files
-        run: |
-          changed_files=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
-          echo "$changed_files"
-
       - name: Check Markdown Header
         run: |
+          changed_files=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
           for file in $changed_files; do
               echo "Check $file Header"
               npm run check "$file"
