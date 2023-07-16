@@ -22,7 +22,7 @@ jobs:
 
       - name: Get Pushed Files
         run: |
-          files="${{ join(github.event.head_commit.modified, '\n') }}"
+          files=$(git diff --name-only HEAD^ HEAD)
           echo "$files"
 
       - name: Check Markdown Header
