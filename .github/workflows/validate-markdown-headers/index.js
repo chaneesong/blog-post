@@ -4,6 +4,8 @@ import checkHeaderValidity from './checkHeaderValidity/index.js';
 const file = process.argv[1];
 let hasValidationFailed = false;
 
+console.log(file);
+
 if (file.endsWith('.md')) {
   try {
     checkHeaderValidity(file);
