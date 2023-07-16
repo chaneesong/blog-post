@@ -6,6 +6,11 @@ let hasValidationFailed = false;
 
 console.log(file);
 
+if (!file) {
+  console.error('file is undefined.');
+  process.exit(1);
+}
+
 if (file.endsWith('.md')) {
   try {
     checkHeaderValidity(file);

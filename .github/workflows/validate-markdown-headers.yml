@@ -20,6 +20,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Get Pushed Files
+        run: |
+          files="${{ join(github.event.head_commit.modified, '\n') }}"
+          echo "$files"
+
       - name: Check Markdown Header
         run: |
-          npm run check ${{ github.event.head_commit.modified[0] }}
+          for file in $files; do
+              echo "Check $file Header"
+              npm run check ${{ github.event.head_commit.modified[0] }}
+            done
