@@ -29,5 +29,5 @@ jobs:
         run: |
           for file in $files; do
               echo "Check $file Header"
-              npm run check $file
+              npm run check "$file"
             done
