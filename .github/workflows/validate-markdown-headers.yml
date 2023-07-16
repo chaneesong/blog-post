@@ -22,4 +22,4 @@ jobs:
 
       - name: Check Markdown Header
         run: |
-          npm run check
+          npm run check ${{ github.event.head_commit.modified[0] }}

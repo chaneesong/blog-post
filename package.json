@@ -5,7 +5,7 @@
   "type": "module",
   "main": "validate-markdown-headers.js",
   "scripts": {
-    "check": "node .github/workflows/validate-markdown-headers/index.js"
+    "check": "node .github/workflows/validate-markdown-headers/index.js $1"
   },
   "repository": {
     "type": "git",
