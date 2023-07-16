@@ -22,12 +22,12 @@ jobs:
 
       - name: Get Pushed Files
         run: |
-          files=$(git diff --name-only HEAD^ HEAD)
-          echo "$files"
+          changed_files=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+          echo "$changed_files"
 
       - name: Check Markdown Header
         run: |
-          for file in $files; do
+          for file in $changed_files; do
               echo "Check $file Header"
               npm run check "$file"
             done
