@@ -4,8 +4,6 @@ import checkHeaderValidity from './checkHeaderValidity/index.js';
 const file = process.argv[2];
 let hasValidationFailed = false;
 
-console.log(file);
-
 if (!file) {
   console.error('file is undefined.');
   process.exit(1);
