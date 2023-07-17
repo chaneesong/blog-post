@@ -23,7 +23,9 @@ jobs:
       - name: Get modified files
         id: get_files
         run: |
-          echo "files=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})" >> $GITHUB_OUTPUT
+          echo "files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})" >> $GITHUB_OUTPUT
+          echo $(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+          echo $(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
 
       - name: Print modified files
         run: |
