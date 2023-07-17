@@ -22,22 +22,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Get modified files
-        id: get_files
+      - name: Check Markdown Header
         run: |
-          echo "files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})" >> $GITHUB_OUTPUT
-          echo $(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
-          echo $(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
-
-      - name: Print modified files
-        run: |
-          echo "Modified files:"
-          echo "${{ steps.get_files.outputs.files }}"
-
-      # - name: Check Markdown Header
-      #   run: |
-      #     changed_files=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
-      #     for file in ${changed_files}; do
-      #         echo "Check ${file} Header"
-      #         npm run check "${file}"
-      #       done
+          changed_files=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+          for file in ${changed_files}; do
+              echo "Check ${file} Header"
+              npm run check "${file}"
+            done
