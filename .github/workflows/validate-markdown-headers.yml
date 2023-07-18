@@ -24,8 +24,8 @@ jobs:
 
       - name: Check Markdown Header
         run: |
-          changed_files=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
-
+          changed_files=$(git diff-tree --no-commit-id --name-status -r ${{ github.sha }})
+          echo ${changed_files}
           for file in ${changed_files}; do
             if [[ "$file" == *.md ]]; then
               echo "Check ${file} Header"

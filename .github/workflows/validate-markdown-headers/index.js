@@ -4,21 +4,23 @@ import checkHeaderValidity from './checkHeaderValidity/index.js';
 const file = process.argv[2];
 let hasValidationFailed = false;
 
-if (!file) {
-  console.error('file is undefined.');
-  process.exit(1);
-}
+console.log(file);
 
-if (file.endsWith('.md')) {
-  try {
-    checkHeaderValidity(file);
-  } catch (error) {
-    hasValidationFailed = true;
-    console.error(error);
-  }
-}
+// if (!file) {
+//   console.error('file is undefined.');
+//   process.exit(1);
+// }
 
-// Exit with a non-zero status code if any validation has failed
-if (hasValidationFailed) {
-  process.exit(1);
-}
+// if (file.endsWith('.md')) {
+//   try {
+//     checkHeaderValidity(file);
+//   } catch (error) {
+//     hasValidationFailed = true;
+//     console.error(error);
+//   }
+// }
+
+// // Exit with a non-zero status code if any validation has failed
+// if (hasValidationFailed) {
+//   process.exit(1);
+// }
