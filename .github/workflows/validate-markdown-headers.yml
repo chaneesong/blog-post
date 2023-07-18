@@ -24,8 +24,11 @@ jobs:
 
       - name: Check Markdown Header
         run: |
-          changed_files=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | grep '\.md$')
+          changed_files=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+
           for file in ${changed_files}; do
+            if [[ "$file" == *.md ]]; then
               echo "Check ${file} Header"
               npm run check "${file}"
+            fi
             done
