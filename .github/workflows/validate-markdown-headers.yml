@@ -22,13 +22,27 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Check Markdown Header
+      - name: Get pushed files
+        id: get_files
         run: |
-          changed_files=$(git diff-tree --no-commit-id --name-status -r ${{ github.sha }})
-          echo ${changed_files}
-          for file in ${changed_files}; do
-            if [[ "$file" == *.md ]]; then
-              echo "Check ${file} Header"
-              npm run check "${file}"
+          pushed_files=$(git diff-tree --no-commit-id --name-status -r ${{ github.sha }})
+
+          echo ${pushed_files}
+
+          # set multiline string of output parameter
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "PUSHED_FILES<<$EOF" >> "$GITHUB_OUTPUT"
+          echo "${pushed_files}" >> "$GITHUB_OUTPUT"
+          echo "$EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Send request to server
+        run: |
+          pushed_files="${{ steps.get_files.outputs.PUSHED_FILES }}"
+
+          IFS=$'\n'
+          for line in ${pushed_files}; do
+            if [[ "$line" == *.md ]]; then
+              echo "Make Request of ${line}"
+              npm run check "${line}"
             fi
-            done
+          done
