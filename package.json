@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/chaneesong/blog-post#readme",
   "dependencies": {
+    "front-matter": "^4.0.2",
     "ts-node": "^10.9.1"
   }
 }
