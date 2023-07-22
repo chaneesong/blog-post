@@ -1,12 +1,15 @@
 import checkHeaderValidity from './checkHeaderValidity/index.js';
+import fs from 'fs';
+import frontMatter from 'front-matter';
 
 // Read all Markdown files and validate headers
 const file = process.argv[2];
 let hasValidationFailed = false;
 
 const [fileType, filePath] = file.trim().split('\t');
-
-console.log('filePath', filePath);
+const content = fs.readFileSync(filePath, 'utf-8');
+const markdown = frontMatter(content);
+console.log('content', markdown);
 
 if (!filePath) {
   console.error('file is undefined.');
@@ -16,6 +19,7 @@ if (!filePath) {
 if (filePath.endsWith('.md')) {
   try {
     checkHeaderValidity(filePath);
+    // sendRequestPostData(fileType, filePath);
   } catch (error) {
     hasValidationFailed = true;
     console.error(error);

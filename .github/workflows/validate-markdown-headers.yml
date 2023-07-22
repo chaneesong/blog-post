@@ -35,14 +35,26 @@ jobs:
           echo "${pushed_files}" >> "$GITHUB_OUTPUT"
           echo "$EOF" >> "$GITHUB_OUTPUT"
 
-      - name: Send request to server
+      - name: Check markdown header
         run: |
           pushed_files="${{ steps.get_files.outputs.PUSHED_FILES }}"
 
           IFS=$'\n'
           for line in ${pushed_files}; do
             if [[ "$line" == *.md ]]; then
-              echo "Make Request of ${line}"
+              echo "Chack header of ${line}"
               npm run check "${line}"
+            fi
+          done
+
+      - name: Send request to server
+        run: |
+          pushed_files="${{ steps.get_files.outputs.PUSHED_FILES}}"
+
+          IFS=$'\n'
+          for line in ${pushed_files}; do
+            if [[ "$line" == *.md]]; then
+              echo "Send request of ${line}"
+              npm run send "${line}"
             fi
           done
