@@ -29,23 +29,11 @@ jobs:
 
           echo ${pushed_files}
 
-          # set multiline string of output parameter
+          # set multiline output parameter
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           echo "PUSHED_FILES<<$EOF" >> "$GITHUB_OUTPUT"
           echo "${pushed_files}" >> "$GITHUB_OUTPUT"
           echo "$EOF" >> "$GITHUB_OUTPUT"
-
-      - name: Check markdown header
-        run: |
-          pushed_files="${{ steps.get_files.outputs.PUSHED_FILES }}"
-
-          IFS=$'\n'
-          for line in ${pushed_files}; do
-            if [[ "$line" == *.md ]]; then
-              echo "Chack header of ${line}"
-              npm run check "${line}"
-            fi
-          done
 
       - name: Send request to server
         run: |
@@ -53,7 +41,7 @@ jobs:
 
           IFS=$'\n'
           for line in ${pushed_files}; do
-            if [[ "$line" == *.md]]; then
+            if [[ "$line" == *.md ]]; then
               echo "Send request of ${line}"
               npm run send "${line}"
             fi

@@ -1,4 +1,4 @@
-import checkHeaderValidity from './checkHeaderValidity/index.js';
+import checkHeaderValidity from './checkHeaerValidity/index.js';
 import fs from 'fs';
 import frontMatter from 'front-matter';
 

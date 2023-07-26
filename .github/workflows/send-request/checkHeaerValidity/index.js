@@ -1,12 +1,8 @@
 import fs from 'fs';
 import getExistingTitles from './getExistingTitles.js';
-import separateHeader from './separateHeader.js';
-import parseHeader from './parseHeader.js';
-
-const getNow = () => {
-  const date = new Date();
-  return new Date(date.setHours(date.getHours() + 9));
-};
+import separateHeader from '../utils/separateHeader.js';
+import parseHeader from '../utils/parseHeader.js';
+import getNow from '../utils/getNow.js';
 
 const checkHeaderValidity = (file) => {
   const content = fs.readFileSync(file, 'utf-8');
