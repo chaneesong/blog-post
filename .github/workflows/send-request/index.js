@@ -19,7 +19,6 @@ if (!filePath) {
 if (filePath.endsWith('.md')) {
   try {
     checkHeaderValidity(filePath);
-    // sendRequestPostData(fileType, filePath);
   } catch (error) {
     hasValidationFailed = true;
     console.error(error);
