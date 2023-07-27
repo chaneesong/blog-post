@@ -36,6 +36,8 @@ jobs:
           echo "$EOF" >> "$GITHUB_OUTPUT"
 
       - name: Send request to server
+        env:
+          SERVER_URL: ${{ secrets.SERVER_URL }}
         run: |
           pushed_files="${{ steps.get_files.outputs.PUSHED_FILES}}"
 
