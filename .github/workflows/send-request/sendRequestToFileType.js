@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const MODIFIED = 'M';
 const ADDED = 'A';
+const DELETED = 'D';
 
 const sendRequestToFileType = async (type, header, body) => {
   try {
@@ -14,6 +15,10 @@ const sendRequestToFileType = async (type, header, body) => {
       );
     } else if (type === ADDED) {
       res = await axios.post(`${process.env.SERVER_URL}/posts`, postData);
+    } else if (type === DELETED) {
+      res = await axios.delete(
+        `${process.env.SERVER_URL}/posts/${postData.title}`
+      );
     }
   } catch (error) {
     console.error(error);
