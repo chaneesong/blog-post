@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import separateHeader from '../utils/separateHeader.js';
-import parseHeader from '../utils/parseHeader.js';
+import separateHeader from '../parse/separateHeader.js';
+import parseHeader from '../parse/parseHeader.js';
 
 const getExistingTitles = () => {
   const files = fs.readdirSync('./');

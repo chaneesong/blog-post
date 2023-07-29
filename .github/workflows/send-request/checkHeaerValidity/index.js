@@ -1,7 +1,7 @@
 import fs from 'fs';
 import getExistingTitles from './getExistingTitles.js';
-import separateHeader from '../utils/separateHeader.js';
-import parseHeader from '../utils/parseHeader.js';
+import separateHeader from '../parse/separateHeader.js';
+import parseHeader from '../parse/parseHeader.js';
 import getNow from '../utils/getNow.js';
 
 const checkHeaderValidity = (file) => {

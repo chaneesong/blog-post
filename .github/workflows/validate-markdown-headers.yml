@@ -40,11 +40,5 @@ jobs:
           SERVER_URL: ${{ secrets.SERVER_URL }}
         run: |
           pushed_files="${{ steps.get_files.outputs.PUSHED_FILES}}"
-
-          IFS=$'\n'
-          for line in ${pushed_files}; do
-            if [[ "$line" == *.md ]]; then
-              echo "Send request of ${line}"
-              npm run send "${line}"
-            fi
-          done
+          echo "Send request"
+          npm run send "${pushed_files}"
