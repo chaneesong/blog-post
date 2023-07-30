@@ -3,22 +3,23 @@ import frontMatter from 'front-matter';
 import checkHeaderValidity from './checkHeaerValidity/index.js';
 import sendRequestToFileType from './sendRequestToFileType.js';
 import parsePushedFileTextToArray from './parse/parsePushedFile.js';
+import getMarkdown from './getMarkdown.js';
 
 let hasValidationFailed = false;
 
 try {
   // Read all Markdown files and validate headers
   const pushedFileText = process.argv[2];
-  const parsedPushedFile = parsePushedFileTextToArray(pushedFileText);
-  console.log(parsedPushedFile);
+  const pushedFiles = parsePushedFileTextToArray(pushedFileText);
 
-  // const [fileType, filePath] = file.trim().split('\t');
-  // const content = fs.readFileSync(filePath, 'utf-8');
-  // const markdown = frontMatter(content);
+  for (const [fileType, filePath] of pushedFiles) {
+    const content = getMarkdown(filePath);
+    const markdown = frontMatter(content);
 
-  // const { attributes, body } = markdown;
-  // checkHeaderValidity(filePath);
-  // sendRequestToFileType(fileType, attributes, body);
+    const { attributes, body } = markdown;
+    checkHeaderValidity(filePath);
+    sendRequestToFileType(fileType, attributes, body);
+  }
 } catch (error) {
   hasValidationFailed = true;
   console.error(error);

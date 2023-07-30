@@ -20,11 +20,11 @@ const sendRequestToFileType = async (type, header, body) => {
         `${process.env.SERVER_URL}/posts/${postData.title}`
       );
     }
+    return res;
   } catch (error) {
     console.error(error);
     process.exit(1);
   }
-  return res;
 };
 
 export default sendRequestToFileType;
