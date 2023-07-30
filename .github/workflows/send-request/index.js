@@ -1,6 +1,6 @@
 import frontMatter from 'front-matter';
 import checkHeaderValidity from './checkHeaderValidity/index.js';
-import sendRequestToFileType from './sendRequestByFileType.js';
+import sendRequestByFileType from './sendRequestByFileType.js';
 import parsePushedFileTextToArray from './parse/parsePushedFile.js';
 import getMarkdown from './getMarkdown.js';
 
@@ -18,7 +18,7 @@ const main = async () => {
 
       const { attributes, body } = markdown;
       checkHeaderValidity(filePath);
-      sendRequestToFileType(fileType, attributes, body);
+      sendRequestByFileType(fileType, attributes, body);
     }
   } catch (error) {
     hasValidationFailed = true;

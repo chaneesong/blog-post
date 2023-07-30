@@ -2,7 +2,7 @@ import { spawn } from 'node:child_process';
 
 const getMarkdown = async (filePath) => {
   const command = 'git';
-  const args = ['show', `HAED:${filePath}`];
+  const args = ['show', `HEAD:${filePath}`];
 
   const childProcess = spawn(command, args);
 
