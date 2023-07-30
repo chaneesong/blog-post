@@ -1,6 +1,6 @@
 import getExistingTitles from './getExistingTitles.js';
-import getNow from '../utils/getNow.js';
-import { DELETED } from '../utils/getCommitState.js';
+import getNow from '../../utils/getNow.js';
+import { DELETED } from '../../utils/getCommitState.js';
 
 const checkHeaderValidity = (fileType, header) => {
   if (fileType === DELETED) return;

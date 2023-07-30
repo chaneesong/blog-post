@@ -1,8 +1,8 @@
 import frontMatter from 'front-matter';
-import checkHeaderValidity from './checkHeaderValidity/index.js';
-import sendRequestByFileType from './sendRequestByFileType.js';
-import parsePushedFileTextToArray from './parse/parsePushedFile.js';
-import getMarkdown from './getMarkdown.js';
+import checkHeaderValidity from './markdown/headerValidation/index.js';
+import sendRequestByFileType from './request/sendRequestByFileType.js';
+import parsePushedFileTextToArray from './parser/parsePushedFile.js';
+import getMarkdown from './markdown/getMarkdown.js';
 
 const main = async () => {
   let hasValidationFailed = false;

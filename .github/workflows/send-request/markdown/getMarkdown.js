@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process';
-import { DELETED } from './utils/getCommitState.js';
+import { DELETED } from '../utils/getCommitState.js';
 
 const getMarkdown = async (fileType, filePath) => {
   const command = 'git';
