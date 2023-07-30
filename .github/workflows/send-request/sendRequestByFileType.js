@@ -1,8 +1,5 @@
 import axios from 'axios';
-
-const MODIFIED = 'M';
-const ADDED = 'A';
-const DELETED = 'D';
+import { ADDED, MODIFIED, DELETED } from './utils/getCommitState.js';
 
 const sendRequestByFileType = async (type, header, body) => {
   try {

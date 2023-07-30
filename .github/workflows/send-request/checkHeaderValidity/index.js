@@ -1,13 +1,11 @@
-import fs from 'fs';
 import getExistingTitles from './getExistingTitles.js';
-import separateHeader from '../parse/separateHeader.js';
-import parseHeader from '../parse/parseHeader.js';
 import getNow from '../utils/getNow.js';
+import { DELETED } from '../utils/getCommitState.js';
 
-const checkHeaderValidity = (file) => {
-  const content = fs.readFileSync(file, 'utf-8');
-  const header = separateHeader(content);
-  const { title, createdAt, category } = parseHeader(header);
+const checkHeaderValidity = (fileType, header) => {
+  if (fileType === DELETED) return;
+
+  const { title, createdAt, category } = header;
   const now = getNow();
   const existingTitles = getExistingTitles();
 

@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import separateHeader from '../parse/separateHeader.js';
-import parseHeader from '../parse/parseHeader.js';
+import frontMatter from 'front-matter';
 
 const getExistingTitles = () => {
   const files = fs.readdirSync('./');
@@ -12,10 +11,9 @@ const getExistingTitles = () => {
   markdownFiles.forEach((file) => {
     const filePath = path.join('./', file);
     const content = fs.readFileSync(filePath, 'utf-8');
-    const header = separateHeader(content);
-    const headerInfo = parseHeader(header);
+    const markdownData = frontMatter(content);
 
-    titles.push(headerInfo['title']);
+    titles.push(markdownData['title']);
   });
 
   return titles;

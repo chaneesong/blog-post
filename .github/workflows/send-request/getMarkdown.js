@@ -1,8 +1,10 @@
 import { spawn } from 'node:child_process';
+import { DELETED } from './utils/getCommitState.js';
 
-const getMarkdown = async (filePath) => {
+const getMarkdown = async (fileType, filePath) => {
   const command = 'git';
-  const args = ['show', `HEAD:${filePath}`];
+  const commitHash = fileType === DELETED ? 'HEAD^' : 'HEAD';
+  const args = ['show', `${commitHash}:${filePath}`];
 
   const childProcess = spawn(command, args);
 
@@ -11,10 +13,12 @@ const getMarkdown = async (filePath) => {
 
   childProcess.stdout.on('data', (data) => {
     stdoutData += data.toString();
+    console.log('stdout', stdoutData);
   });
 
   childProcess.stderr.on('data', (data) => {
     stderrData += data.toString();
+    console.log(stderrData);
   });
 
   const exitCode = await new Promise((resolve, reject) => {
