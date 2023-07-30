@@ -1,7 +1,7 @@
 import fs from 'fs';
 import frontMatter from 'front-matter';
-import checkHeaderValidity from './checkHeaerValidity/index.js';
-import sendRequestToFileType from './sendRequestToFileType.js';
+import checkHeaderValidity from './checkHeaderValidity/index.js';
+import sendRequestToFileType from './sendRequestByFileType.js';
 import parsePushedFileTextToArray from './parse/parsePushedFile.js';
 import getMarkdown from './getMarkdown.js';
 
