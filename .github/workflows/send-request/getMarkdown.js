@@ -1,16 +1,33 @@
-import { exec } from 'node:child_process';
-import { promisify } from 'node:util';
+import { spawn } from 'node:child_process';
 
 const getMarkdown = async (filePath) => {
-  try {
-    const command = `git show HEAD:${filePath}`;
-    const { stdout, stderr } = await promisify(exec)(command);
+  const command = 'git';
+  const args = ['show', `HAED:${filePath}`];
 
-    console.error(stderr);
-    return stdout;
-  } catch (error) {
-    console.error(error);
-  }
+  const childProcess = spawn(command, args);
+
+  let stdoutData = '';
+  let stderrData = '';
+
+  childProcess.stdout.on('data', (data) => {
+    stdoutData += data.toString();
+  });
+
+  childProcess.stderr.on('data', (data) => {
+    stderrData += data.toString();
+  });
+
+  const exitCode = await new Promise((resolve, reject) => {
+    childProcess.on('error', (error) => {
+      reject(error);
+    });
+
+    childProcess.on('close', (code) => {
+      resolve(code);
+    });
+  });
+
+  return { stdout: stdoutData, stderr: stderrData, exitCode };
 };
 
 export default getMarkdown;
