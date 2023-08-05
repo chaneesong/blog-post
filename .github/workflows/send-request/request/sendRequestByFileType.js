@@ -4,8 +4,6 @@ import { ADDED, MODIFIED, DELETED } from '../utils/getCommitState.js';
 const sendRequestByFileType = async (type, header, body) => {
   try {
     const postData = { ...header, content: body };
-    console.log('url', process.env.SERVER_URL);
-    console.log('postData', postData);
     let res;
     if (type === MODIFIED) {
       res = await axios.patch(

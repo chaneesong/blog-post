@@ -13,7 +13,6 @@ const getMarkdown = async (fileType, filePath) => {
 
   childProcess.stdout.on('data', (data) => {
     stdoutData += data.toString();
-    console.log('stdout', stdoutData);
   });
 
   childProcess.stderr.on('data', (data) => {
