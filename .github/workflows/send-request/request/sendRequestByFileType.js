@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ADDED, MODIFIED, DELETED } from '../utils/getCommitState.js';
+import { insertIdOfPost } from '../markdown/insertIdOfPost.js';
 
 const sendRequestByFileType = async (type, header, body) => {
   try {
@@ -12,6 +13,8 @@ const sendRequestByFileType = async (type, header, body) => {
       );
     } else if (type === ADDED) {
       res = await axios.post(`${process.env.SERVER_URL}/posts`, postData);
+      const result = insertIdOfPost(res);
+      console.log(result);
     } else if (type === DELETED) {
       res = await axios.delete(
         `${process.env.SERVER_URL}/posts/${postData.title}`
