@@ -5,7 +5,8 @@
   "type": "module",
   "main": "validate-markdown-headers.js",
   "scripts": {
-    "send": "node .github/workflows/send-request/index.js $1"
+    "send": "node .github/workflows/send-request/index.js $1",
+    "inject": "node .github/workflows/inject-id/index.js $1"
   },
   "repository": {
     "type": "git",

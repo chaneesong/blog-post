@@ -60,6 +60,4 @@ jobs:
       - name: Inject post id
         run: |
           response="${{ steps.request.outputs.CREATE_RESPONSE }}"
-          echo test
-          echo $response
-          echo test
+          npm run inject "${response}"
