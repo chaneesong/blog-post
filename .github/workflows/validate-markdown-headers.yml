@@ -50,4 +50,4 @@ jobs:
           pushed_files="${{ steps.get_files.outputs.PUSHED_FILES}}"
           echo "Send request"
           response=$(npm run send "${pushed_files}")
-          echo $response
+          echo -e "\n$response"
