@@ -44,10 +44,20 @@ jobs:
           echo "$EOF" >> "$GITHUB_OUTPUT"
 
       - name: Send request to server
+        id: request
         env:
           SERVER_URL: ${{ secrets.SERVER_URL }}
         run: |
           pushed_files="${{ steps.get_files.outputs.PUSHED_FILES}}"
           echo "Send request"
           response=$(npm run send "${pushed_files}")
-          echo -e "\n$response"
+
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "CREATE_RESPONSE<<$EOF" >> "$GITHUB_OUTPUT"
+          echo "${response}" >> "$GITHUB_OUTPUT"
+          echo "$EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Inject post id
+        run: |
+          response="${{ steps.request.outputs.CREATE_RESPONSE }}"
+          echo $response
