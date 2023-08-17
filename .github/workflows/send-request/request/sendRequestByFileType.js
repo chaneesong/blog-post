@@ -12,7 +12,7 @@ const sendRequestByFileType = async (type, header, body) => {
       );
     } else if (type === ADDED) {
       res = await axios.post(`${process.env.SERVER_URL}/posts`, postData);
-      console.log('[add]', res.data);
+      console.log('[add]', JSON.stringify(res.data));
     } else if (type === DELETED) {
       res = await axios.delete(
         `${process.env.SERVER_URL}/posts/${postData.title}`
