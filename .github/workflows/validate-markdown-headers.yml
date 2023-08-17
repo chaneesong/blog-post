@@ -50,9 +50,4 @@ jobs:
         run: |
           pushed_files="${{ steps.get_files.outputs.PUSHED_FILES}}"
           echo "Send request"
-          response_id=$(npm run send "${pushed_files}")
-
-          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          echo "RESPONSE_ID<<$EOF" >> "$GITHUB_OUTPUT"
-          echo "${response_id}" >> "$GITHUB_OUTPUT"
-          echo "$EOF" >> "$GITHUB_OUTPUT"
+          npm run send "${pushed_files}"
