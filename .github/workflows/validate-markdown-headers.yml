@@ -59,7 +59,7 @@ jobs:
         run: |
           git config --local user.email ${{ secrets.EMAIL }}
           git config --local user.name ${{ secrets.USER_NAME }}
-          git config --local user.password ${{ secrets.PAT }}
+          git config --local user.password ${{ secrets.TOKEN }}
 
       - name: Commit and push changes
         run: |
