@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 const selectProperties = (response) => {
   const {
     id,
@@ -32,11 +34,21 @@ ${object.content}`;
   return markdownText;
 };
 
+const overwriteFile = (title, markdown) => {
+  try {
+    fs.writeFileSync(`./${title}.md`, markdown);
+  } catch (error) {
+    console.error(error);
+    process.exit(0);
+  }
+};
+
 export const injectId = (data) => {
   try {
     const parsedResponse = selectProperties(data);
     const markdown = convertToMarkdown(parsedResponse);
-    console.log(markdown);
+    overwriteFile(title, markdown);
+    console.log('File overwritten successfully.');
   } catch (error) {
     console.error(error);
     process.exit(0);

@@ -51,3 +51,15 @@ jobs:
           pushed_files="${{ steps.get_files.outputs.PUSHED_FILES}}"
           echo "Send request"
           npm run send "${pushed_files}"
+
+      - name: Set up Git
+        run: |
+          git config --local user.email ${{ secrets.EMAIL }}
+          git config --local user.name ${{ secrets.USER_NAME }}
+          git config --local user.password ${{ secrets.PAT }}
+
+      - name: Commit and push changes
+        run: |
+          git add .
+          git commit -m "[skip ci] Inject Post ID"
+          git push
