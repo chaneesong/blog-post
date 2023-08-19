@@ -63,13 +63,10 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          echo test0
-          git diff --quiet HEAD~1..HEAD
-          echo test
+          echo $(git diff --quiet HEAD~1..HEAD)
 
-          if [ $? -eq 1 ]; then
-            git add .
-            git commit -m "[skip ci] Inject Post ID"
-            git push
-          fi
-          echo test2
+          #  if [ $? -eq 1 ]; then
+          #    git add .
+          #    git commit -m "[skip ci] Inject Post ID"
+          #    git push
+          #  fi
