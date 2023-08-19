@@ -36,7 +36,7 @@ ${object.content}`;
 
 const overwriteFile = (title, markdown) => {
   try {
-    fs.writeFileSync(`./${title}.md`, markdown);
+    fs.writeFileSync(`${title}.md`, markdown);
   } catch (error) {
     console.error(error);
     process.exit(0);
