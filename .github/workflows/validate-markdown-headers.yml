@@ -64,6 +64,7 @@ jobs:
       - name: Check for Markdown changes
         id: check_changed_files
         run: |
+          echo $(git status)
           changed_files=$(git diff --name-only HEAD HEAD^ | grep -E '\.md$')
           if [ -n "$changed_files" ]; then
             echo "Markdown files changed"
