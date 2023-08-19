@@ -64,9 +64,11 @@ jobs:
       - name: Commit and push changes
         run: |
           git diff --quiet HEAD~1..HEAD
+          echo test
 
           if [ $? -eq 1 ]; then
             git add .
             git commit -m "[skip ci] Inject Post ID"
             git push
           fi
+          echo test2
