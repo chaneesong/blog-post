@@ -63,6 +63,7 @@ jobs:
 
       - name: Commit and push changes
         run: |
+          echo test0
           git diff --quiet HEAD~1..HEAD
           echo test
 
