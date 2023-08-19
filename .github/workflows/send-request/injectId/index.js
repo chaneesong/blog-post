@@ -47,7 +47,7 @@ export const injectId = (data) => {
   try {
     const parsedResponse = selectProperties(data);
     const markdown = convertToMarkdown(parsedResponse);
-    overwriteFile(title, markdown);
+    overwriteFile(data.title, markdown);
     console.log('File overwritten successfully.');
   } catch (error) {
     console.error(error);
