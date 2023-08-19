@@ -63,6 +63,10 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git add .
-          git commit -m "[skip ci] Inject Post ID"
-          git push
+          git diff --quiet HEAD~1..HEAD
+
+          if [ $? -eq 1 ]; then
+            git add .
+            git commit -m "[skip ci] Inject Post ID"
+            git push
+          fi
