@@ -52,7 +52,6 @@ jobs:
           SERVER_URL: ${{ secrets.SERVER_URL }}
         run: |
           pushed_files="${{ steps.get_pushed_files.outputs.PUSHED_FILES}}"
-          echo "Send request"
           npm run send "${pushed_files}"
 
       - name: Set up Git
@@ -65,11 +64,6 @@ jobs:
         id: check_changed_files
         run: |
           changed_files=$(git diff --name-only HEAD HEAD^ | grep -E '\.md$')
-          ls
-          echo ######
-          echo $changed_files
-          echo ######
-          cat test5.md
 
           if [ -n "$changed_files" ]; then
             echo "Markdown files changed"
