@@ -16,7 +16,7 @@ const sendRequestByFileType = async (type, header, body) => {
       injectId(res.data);
     } else if (type === DELETED) {
       res = await axios.delete(
-        `${process.env.SERVER_URL}/posts/${postData.title}`
+        `${process.env.SERVER_URL}/posts/${postData.id}`
       );
     }
     return res;
