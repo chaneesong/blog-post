@@ -1,4 +1,4 @@
-name: Check Markdown Header Validity
+name: Request
 on:
   push:
     branches:
@@ -46,6 +46,15 @@ jobs:
           echo "${pushed_files}" >> "$GITHUB_OUTPUT"
           echo "$EOF" >> "$GITHUB_OUTPUT"
 
+      - name: Get JWT
+        id: get_jwt
+        run: |
+          jwt=$(curl -X Post -H "Content-Type: application/json" -d \
+          '{"id": ${{ secrets.USER_ID }}, \
+          "password": ${{ secrets.USER_PASSWORD }}}' \
+          ${{ secrets.SERVER_URL }}/auth/login)
+          echo "$jwt"
+
       - name: Send request to server
         id: request
         env:
@@ -58,7 +67,7 @@ jobs:
         run: |
           git config --local user.email ${{ secrets.EMAIL }}
           git config --local user.name ${{ secrets.USER_NAME }}
-          git config --local user.password ${{ secrets.TOKEN }}
+          git config --local user.password ${{ secrets.REPO_ACCESS_TOKEN }}
 
       - name: Check for Markdown changes
         id: check_changed_files
