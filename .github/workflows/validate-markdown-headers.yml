@@ -50,7 +50,7 @@ jobs:
         id: get_jwt
         run: |
           jwt=$(curl -X Post -H "Content-Type: application/json" -d '{"id": ${{ secrets.USER_ID }}, "password": ${{ secrets.USER_PASSWORD }}}' ${{ secrets.SERVER_URL }}/auth/login | jq -r '.access_token')
-          echo jwt is $jwt
+          echo jwt is $(jwt)
 
       - name: Send request to server
         id: request
