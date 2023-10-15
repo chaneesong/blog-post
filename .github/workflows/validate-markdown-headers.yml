@@ -53,7 +53,7 @@ jobs:
           '{"id": ${{ secrets.USER_ID }}, \
           "password": ${{ secrets.USER_PASSWORD }}}' \
           ${{ secrets.SERVER_URL }}/auth/login)
-          echo "$jwt"
+          echo jwt is "$jwt"
 
       - name: Send request to server
         id: request
