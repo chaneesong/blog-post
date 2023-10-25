@@ -8,7 +8,7 @@ permissions:
   contents: write
 
 jobs:
-  check_header:
+  request:
     runs-on: ubuntu-latest
 
     steps:
@@ -86,3 +86,7 @@ jobs:
           git add .
           git commit -m "[skip ci] Inject Post ID"
           git push
+
+      - name: Send Webhook
+        run: |
+          curl -X Post -d '{"success": "true"}' ${{ secrets.NGROK }}
