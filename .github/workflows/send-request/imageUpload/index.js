@@ -14,6 +14,13 @@ const getOAuth2Client = (clientID, clientSecret, redirectURL) => {
   return oauth2Client;
 };
 
+const getDriveAccess = (oauth2Client) => {
+  return google.drive({
+    version: 'v3',
+    auth: oauth2Client,
+  });
+};
+
 export const uploadImage = async () => {
   const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URL } =
     process.env;
@@ -22,4 +29,5 @@ export const uploadImage = async () => {
     GOOGLE_CLIENT_SECRET,
     GOOGLE_REDIRECT_URL
   );
+  const drive = getDriveAccess(oauth2Client);
 };
