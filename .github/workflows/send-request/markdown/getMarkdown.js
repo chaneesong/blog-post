@@ -1,7 +1,7 @@
 import { spawn } from 'node:child_process';
 import { DELETED } from '../utils/getCommitState.js';
 
-const getMarkdown = async (fileType, filePath) => {
+export const getMarkdownFileName = async (fileType, filePath) => {
   const command = 'git';
   const commitHash = fileType === DELETED ? 'HEAD^' : 'HEAD';
   const args = ['show', `${commitHash}:${filePath}`];
@@ -32,5 +32,3 @@ const getMarkdown = async (fileType, filePath) => {
 
   return { stdout: stdoutData, stderr: stderrData, exitCode };
 };
-
-export default getMarkdown;

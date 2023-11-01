@@ -2,7 +2,7 @@ import frontMatter from 'front-matter';
 import checkHeaderValidity from './markdown/headerValidation/index.js';
 import sendRequestByFileType from './request/sendRequestByFileType.js';
 import parsePushedFileTextToArray from './parser/parsePushedFile.js';
-import getMarkdown from './markdown/getMarkdown.js';
+import { getMarkdownFileName } from './markdown/getMarkdown.js';
 
 const main = async () => {
   let hasValidationFailed = false;
@@ -13,10 +13,12 @@ const main = async () => {
     const pushedFiles = parsePushedFileTextToArray(pushedFileText);
 
     for (const [fileType, filePath] of pushedFiles) {
-      const { stdout } = await getMarkdown(fileType, filePath);
+      const { stdout } = await getMarkdownFileName(fileType, filePath);
       const markdown = frontMatter(stdout);
 
       const { attributes, body } = markdown;
+      console.log('attr', attributes);
+      console.log('body', body);
       checkHeaderValidity(fileType, attributes);
       sendRequestByFileType(fileType, attributes, body);
     }
