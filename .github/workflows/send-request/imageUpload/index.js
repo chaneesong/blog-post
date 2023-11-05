@@ -49,6 +49,7 @@ const parseImageName = (ImgName) => {
 
 const uploadImageToDrive = async (drive, imagePath, folderId) => {
   const responsePromises = [];
+  const imageIds = {};
 
   const imgNames = getImageName(imagePath);
 
@@ -68,7 +69,11 @@ const uploadImageToDrive = async (drive, imagePath, folderId) => {
     responsePromises.push(responsePromise);
   }
 
-  return (await Promise.all(responsePromises)).map((res) => res.data.id);
+  (await Promise.all(responsePromises)).forEach(
+    (res) => (imageIds[res.data.name] = res.data.id)
+  );
+
+  return imageIds;
 };
 
 export const uploadImage = async (imagePath) => {
