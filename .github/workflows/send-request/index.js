@@ -8,17 +8,16 @@ const main = async () => {
   let hasValidationFailed = false;
 
   try {
-    // Read all Markdown files and validate headers
     const pushedFileText = process.argv[2];
     const pushedFiles = parsePushedFileTextToArray(pushedFileText);
+    console.log(pushedFileText);
 
     for (const [fileType, filePath] of pushedFiles) {
       const { stdout } = await getMarkdownFileName(fileType, filePath);
+      console.log(stdout);
       const markdown = frontMatter(stdout);
 
       const { attributes, body } = markdown;
-      console.log('attr', attributes);
-      console.log('body', body);
       checkHeaderValidity(fileType, attributes);
       sendRequestByFileType(fileType, attributes, body);
     }
@@ -27,7 +26,6 @@ const main = async () => {
     console.error(error);
   }
 
-  // Exit with a non-zero status code if any validation has failed
   if (hasValidationFailed) {
     process.exit(1);
   }
