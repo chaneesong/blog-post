@@ -10,11 +10,11 @@ const main = async () => {
   try {
     const pushedFileText = process.argv[2];
     const pushedFiles = parsePushedFileTextToArray(pushedFileText);
-    console.log(pushedFileText);
+    console.log('pushed', pushedFileText);
 
     for (const [fileType, filePath] of pushedFiles) {
       const { stdout } = await getMarkdownFileName(fileType, filePath);
-      console.log(stdout);
+      console.log('stdout', stdout);
       const markdown = frontMatter(stdout);
 
       const { attributes, body } = markdown;
