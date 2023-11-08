@@ -1,7 +1,8 @@
 import { spawn } from 'node:child_process';
 import { DELETED } from '../utils/getCommitState.js';
 
-export const getMarkdownFileName = async (fileType, filePath) => {
+// 마크다운 컨텐츠를 읽어오는 함수
+export const getMarkdownContents = async (fileType, filePath) => {
   const command = 'git';
   const commitHash = fileType === DELETED ? 'HEAD^' : 'HEAD';
   const args = ['show', `${commitHash}:${filePath}`];
@@ -17,7 +18,7 @@ export const getMarkdownFileName = async (fileType, filePath) => {
 
   childProcess.stderr.on('data', (data) => {
     stderrData += data.toString();
-    console.log(stderrData);
+    console.error(stderrData);
   });
 
   const exitCode = await new Promise((resolve, reject) => {

@@ -1,19 +1,15 @@
 import fs from 'fs';
 
+// 응답 객체를 가공하는 함수
 const selectProperties = (response) => {
-  const {
-    id,
-    title,
-    content,
-    category: categoryData,
-    tags: tagsData,
-  } = response;
+  const { id, title, content, category: categoryData, tagsData } = response;
   const { category } = categoryData;
   const tags = tagsData.map((tagData) => tagData.keyword);
   return { id, title, category, tags, content };
 };
 
-const parseHeader = (header) => {
+// 헤더 객체를 통해 마크다운 헤더를 다시 만드는 함수
+const setHeader = (header) => {
   let result = '';
   const entiry = Object.entries(header);
   for (const value of entiry) {
@@ -22,9 +18,10 @@ const parseHeader = (header) => {
   return result.trim();
 };
 
-const convertToMarkdown = (object) => {
+// id가 포함된 마크다운을 다시 만드는 함수
+const rebuildMarkdown = (object) => {
   const { content, ...header } = object;
-  const headerText = parseHeader(header);
+  const headerText = setHeader(header);
   const markdownText = `---
 ${headerText}
 ---
@@ -34,6 +31,7 @@ ${object.content}`;
   return markdownText;
 };
 
+// 마크다운 파일에 id를 포함하여 덮어쓰는 함수
 const overwriteFile = (title, markdown) => {
   try {
     fs.writeFileSync(`${title}.md`, markdown);
@@ -43,10 +41,11 @@ const overwriteFile = (title, markdown) => {
   }
 };
 
+// 서버에서 받아온 id를 마크다운 문서에 삽입하는 함수
 export const injectId = (data) => {
   try {
     const parsedResponse = selectProperties(data);
-    const markdown = convertToMarkdown(parsedResponse);
+    const markdown = rebuildMarkdown(parsedResponse);
     overwriteFile(data.title, markdown);
     console.log('File overwritten successfully.');
   } catch (error) {

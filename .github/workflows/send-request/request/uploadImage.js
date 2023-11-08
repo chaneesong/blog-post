@@ -2,6 +2,7 @@ import { google } from 'googleapis';
 import { createReadStream, readdirSync } from 'node:fs';
 import { __dirname } from '../utils/getDirName';
 
+// 구글 드라이브 접근을 위해 OAuth2 인증을 하는 함수
 const getOAuth2Client = (clientID, clientSecret, redirectURL) => {
   const oauth2Client = new google.auth.OAuth2(
     clientID,
@@ -16,6 +17,7 @@ const getOAuth2Client = (clientID, clientSecret, redirectURL) => {
   return oauth2Client;
 };
 
+// 구글 드라이브 접근 권한을 얻는 함수
 const getDriveAccess = (oauth2Client) => {
   return google.drive({
     version: 'v3',
@@ -23,6 +25,7 @@ const getDriveAccess = (oauth2Client) => {
   });
 };
 
+// 디렉토리 이름을 바탕으로 구글 드라이브에 폴더를 만드는 함수
 const createFolder = async (drive, imagePath) => {
   const { id } = await drive.files.create({
     requestBody: {
@@ -35,10 +38,13 @@ const createFolder = async (drive, imagePath) => {
   return id;
 };
 
+// 디렉토리 내부에서 이미지명을 받아오는 함수
+// 이미지를 보관하는 디렉토리 이름은 title과 같다.
 const getImageName = (imagePath) => {
   return readdirSync(`${__dirname}/${imagePath}`);
 };
 
+// 이미지명과 확장자를 분리하는 함수
 const parseImageName = (ImgName) => {
   const nameArr = ImgName.split('.');
   return {
@@ -47,6 +53,7 @@ const parseImageName = (ImgName) => {
   };
 };
 
+// 구글 드라이브로 이미지를 업로드 하는 함수
 const uploadImageToDrive = async (drive, imagePath, folderId) => {
   const responsePromises = [];
   const imageIds = {};
@@ -76,6 +83,7 @@ const uploadImageToDrive = async (drive, imagePath, folderId) => {
   return imageIds;
 };
 
+// 이미지를 업로드 하는 함수 로직
 export const uploadImage = async (imagePath) => {
   const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URL } =
     process.env;

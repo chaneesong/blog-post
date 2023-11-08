@@ -5,6 +5,7 @@ import { injectId } from '../injectId/index.js';
 const jwtToken = process.env.JWT;
 axios.defaults.headers.common['Authorization'] = `Bearer ${jwtToken}`;
 
+// 커밋 타입을 바탕으로 서버에 생성|수정|삭제 요청을 보내는 함수
 const sendRequestByFileType = async (type, header, body) => {
   try {
     const postData = { ...header, content: body };

@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import frontMatter from 'front-matter';
 
+// 이미 존재하는 타이틀인지 확인하는 함수
 const getExistingTitles = () => {
   const files = fs.readdirSync('./');
 
