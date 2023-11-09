@@ -1,6 +1,6 @@
 import frontMatter from 'front-matter';
 import checkHeaderValidity from './markdown/headerValidation/index.js';
-import sendRequestByFileType from './request/sendRequestByFileType.js';
+import sendRequestByFileType from './markdown/sendRequestByFileType.js';
 import { filterMarkdownToPushedFiles } from './parser/parsePushedFile.js';
 import { getMarkdownContents } from './markdown/getMarkdown.js';
 

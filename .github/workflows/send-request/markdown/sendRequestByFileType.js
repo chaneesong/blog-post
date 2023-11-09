@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ADDED, MODIFIED, DELETED } from '../utils/getCommitState.js';
-import { injectId } from '../injectId/index.js';
+import { injectId } from './injectId.js';
 
 const jwtToken = process.env.JWT;
 axios.defaults.headers.common['Authorization'] = `Bearer ${jwtToken}`;
