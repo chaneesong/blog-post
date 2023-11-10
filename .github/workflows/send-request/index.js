@@ -4,6 +4,7 @@ import sendRequestByFileType from './markdown/sendRequestByFileType.js';
 import { filterMarkdownToPushedFiles } from './parser/parsePushedFile.js';
 import { getMarkdownContents } from './markdown/getMarkdown.js';
 import { changeImageUrl } from './markdown/changeImageUrl.js';
+import { uploadImage } from './googleDrive/uploadImage.js';
 
 const main = async () => {
   let hasValidationFailed = false;
