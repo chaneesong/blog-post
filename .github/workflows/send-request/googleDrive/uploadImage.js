@@ -1,8 +1,8 @@
 import { createReadStream } from 'node:fs';
-import { getOAuth2Client, getDriveAccess } from './getOAuth2';
-import { createFolder } from './createFolder';
-import { parseImageName } from './parseImageName';
-import { getImageName } from './getImageName';
+import { getOAuth2Client, getDriveAccess } from './getOAuth2.js';
+import { createFolder } from './createFolder.js';
+import { parseImageName } from './parseImageName.js';
+import { getImageName } from './getImageName.js';
 
 // 구글 드라이브로 이미지를 업로드 하는 함수
 const uploadImageToDrive = async (drive, imagePath, folderId) => {
