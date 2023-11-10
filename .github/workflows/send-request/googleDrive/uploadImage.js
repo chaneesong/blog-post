@@ -1,5 +1,4 @@
 import { createReadStream } from 'node:fs';
-import { __dirname } from '../utils/getDirName';
 import { getOAuth2Client, getDriveAccess } from './getOAuth2';
 import { createFolder } from './createFolder';
 import { parseImageName } from './parseImageName';
