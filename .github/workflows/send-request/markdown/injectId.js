@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { ADDED } from '../utils/getCommitState';
+import { ADDED } from '../utils/getCommitState.js';
 
 // 응답 객체를 가공하는 함수
 const selectProperties = (response) => {
