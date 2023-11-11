@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { ADDED } from '../utils/getCommitState';
 
 // 응답 객체를 가공하는 함수
 const selectProperties = (response) => {
@@ -42,7 +43,10 @@ const overwriteFile = (title, markdown) => {
 };
 
 // 서버에서 받아온 id를 마크다운 문서에 삽입하는 함수
-export const injectId = (data) => {
+export const injectId = (data, fileType) => {
+  if (fileType !== ADDED) {
+    return;
+  }
   try {
     const parsedResponse = selectProperties(data);
     const markdown = rebuildMarkdown(parsedResponse);

@@ -5,6 +5,7 @@ import { filterMarkdownToPushedFiles } from './parser/parsePushedFile.js';
 import { getMarkdownContents } from './markdown/getMarkdown.js';
 import { changeImageUrl } from './markdown/changeImageUrl.js';
 import { uploadImage } from './googleDrive/uploadImage.js';
+import { injectId } from './markdown/injectId.js';
 
 const main = async () => {
   let hasValidationFailed = false;
@@ -19,11 +20,10 @@ const main = async () => {
       const modifiedMarkdownContent = changeImageUrl(stdout, imgIds);
       const markdown = frontMatter(modifiedMarkdownContent);
       const { attributes, body } = markdown;
-      console.log('attr', attributes);
-      console.log('body', body);
 
       checkHeaderValidity(fileType, attributes);
-      sendRequestByFileType(fileType, attributes, body);
+      const res = sendRequestByFileType(fileType, attributes, body);
+      injectId(res.data);
     }
   } catch (error) {
     hasValidationFailed = true;
