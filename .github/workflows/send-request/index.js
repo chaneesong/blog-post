@@ -15,6 +15,7 @@ const main = async () => {
     const pushedFiles = filterMarkdownToPushedFiles(pushedFileText);
 
     for (const [fileType, filePath] of pushedFiles) {
+      console.log('fileType: ', fileType, ' filePath: ', filePath);
       const imgIds = uploadImage(filePath);
       const { stdout } = await getMarkdownContents(fileType, filePath);
       const modifiedMarkdownContent = changeImageUrl(stdout, imgIds);
