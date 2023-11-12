@@ -44,12 +44,15 @@ const overwriteFile = (title, markdown) => {
 
 // 서버에서 받아온 id를 마크다운 문서에 삽입하는 함수
 export const injectId = (data, fileType) => {
+  console.log(fileType);
   if (fileType !== ADDED) {
     return;
   }
   try {
     const parsedResponse = selectProperties(data);
+    console.log(parsedResponse);
     const markdown = rebuildMarkdown(parsedResponse);
+    console.log(markdown);
     overwriteFile(data.title, markdown);
     console.log('File overwritten successfully.');
   } catch (error) {
