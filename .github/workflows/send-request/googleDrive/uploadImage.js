@@ -39,7 +39,7 @@ export const uploadImage = async (imagePath) => {
   const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URL } =
     process.env;
   try {
-    const oauth2Client = getOAuth2Client(
+    const oauth2Client = await getOAuth2Client(
       GOOGLE_CLIENT_ID,
       GOOGLE_CLIENT_SECRET,
       GOOGLE_REDIRECT_URL

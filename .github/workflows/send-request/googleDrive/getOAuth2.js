@@ -1,7 +1,7 @@
 import { google } from 'googleapis';
 
 // 구글 드라이브 접근을 위해 OAuth2 인증을 하는 함수
-export const getOAuth2Client = (clientID, clientSecret, redirectURL) => {
+export const getOAuth2Client = async (clientID, clientSecret, redirectURL) => {
   const oauth2Client = new google.auth.OAuth2(
     clientID,
     clientSecret,
