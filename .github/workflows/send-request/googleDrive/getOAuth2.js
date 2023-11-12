@@ -8,7 +8,7 @@ export const getOAuth2Client = async (clientID, clientSecret, redirectURL) => {
     redirectURL
   );
 
-  oauth2Client.setCredentials({
+  oauth2Client.credentials({
     refresh_token: process.env.GOOGLE_DRIVE_REFRESH_TOKEN,
   });
 
