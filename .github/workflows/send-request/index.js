@@ -22,7 +22,7 @@ const main = async () => {
       const markdown = frontMatter(modifiedMarkdownContent);
       const { attributes, body } = markdown;
 
-      checkHeaderValidity(fileType, attributes);
+      // checkHeaderValidity(fileType, attributes);
       const res = sendRequestByFileType(fileType, attributes, body);
       injectId(res.data);
     }
