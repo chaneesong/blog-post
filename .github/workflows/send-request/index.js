@@ -14,15 +14,15 @@ const main = async () => {
     const pushedFileText = process.argv[2];
     const pushedFiles = filterMarkdownToPushedFiles(pushedFileText);
 
-    for (const [fileType, filePath] of pushedFiles) {
-      console.log('fileType: ', fileType, ' filePath: ', filePath);
-      const imgIds = uploadImage(filePath);
-      const { stdout } = await getMarkdownContents(fileType, filePath);
+    for (const [fileType, fileName] of pushedFiles) {
+      console.log('fileType: ', fileType, ' fileName: ', fileName);
+      const { stdout } = await getMarkdownContents(fileType, fileName);
+      const imgIds = uploadImage(fileName);
       const modifiedMarkdownContent = changeImageUrl(stdout, imgIds);
       const markdown = frontMatter(modifiedMarkdownContent);
       const { attributes, body } = markdown;
 
-      // checkHeaderValidity(fileType, attributes);
+      checkHeaderValidity(fileType, attributes);
       const res = sendRequestByFileType(fileType, attributes, body);
       injectId(res.data);
     }
