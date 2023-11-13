@@ -3,10 +3,9 @@ import { ADDED } from '../utils/getCommitState.js';
 
 // 응답 객체를 가공하는 함수
 const selectProperties = (response) => {
-  const { id, title, content, category: categoryData, tagsData } = response;
-  const { category } = categoryData;
-  const tags = tagsData.map((tagData) => tagData.keyword);
-  return { id, title, category, tags, content };
+  const { id, title, content, category, tags } = response;
+  const tagKeywords = tags.map((tag) => tag.keyword);
+  return { id, title, category: category.keyword, tags: tagKeywords, content };
 };
 
 // 헤더 객체를 통해 마크다운 헤더를 다시 만드는 함수
