@@ -15,7 +15,6 @@ const main = async () => {
     const pushedFiles = filterMarkdownToPushedFiles(pushedFileText);
 
     for (const [fileType, fileName] of pushedFiles) {
-      console.log('fileType: ', fileType, ' fileName: ', fileName);
       const { stdout } = await getMarkdownContents(fileType, fileName);
       const imgIds = uploadImage(fileName);
       const modifiedMarkdownContent = changeImageUrl(stdout, imgIds);
@@ -24,7 +23,6 @@ const main = async () => {
 
       checkHeaderValidity(fileType, attributes);
       const resData = await sendRequestByFileType(fileType, attributes, body);
-      console.log(resData);
       injectId(fileName, resData, fileType);
     }
   } catch (error) {
