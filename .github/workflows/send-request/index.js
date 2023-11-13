@@ -23,7 +23,7 @@ const main = async () => {
       const { attributes, body } = markdown;
 
       checkHeaderValidity(fileType, attributes);
-      const resData = sendRequestByFileType(fileType, attributes, body);
+      const resData = await sendRequestByFileType(fileType, attributes, body);
       console.log(resData);
       injectId(fileName, resData, fileType);
     }
