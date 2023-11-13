@@ -5,7 +5,7 @@ export const createFolder = async (drive, imagePath) => {
     resource: {
       name: imagePath,
       parents: [process.env.GOOGLE_DRIVE_ROOT_FOLDER],
-      MimeType: 'application/vnd.google-apps.folder',
+      mimeType: 'application/vnd.google-apps.folder',
     },
   });
 
