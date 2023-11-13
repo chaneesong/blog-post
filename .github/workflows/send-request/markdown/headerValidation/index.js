@@ -14,9 +14,8 @@ const checkHeaderValidity = (fileType, header) => {
     process.exit(1);
   }
 
-  // 카테고리가 하나인지 확인
-  const categoryCount = category.split(',').length;
-  if (categoryCount > 1) {
+  // 카테고리의 타입을 확인
+  if (typeof category !== 'string') {
     console.error(`Error: Multiple categories found in ${file}`);
     process.exit(1);
   }
