@@ -24,7 +24,7 @@ const main = async () => {
 
       checkHeaderValidity(fileType, attributes);
       const res = sendRequestByFileType(fileType, attributes, body);
-      injectId(res.data);
+      injectId(fileName, res.data, fileType);
     }
   } catch (error) {
     hasValidationFailed = true;

@@ -33,9 +33,9 @@ ${object.content}`;
 };
 
 // 마크다운 파일에 id를 포함하여 덮어쓰는 함수
-const overwriteFile = (title, markdown) => {
+const overwriteFile = (fileName, markdown) => {
   try {
-    fs.writeFileSync(`${title}.md`, markdown);
+    fs.writeFileSync(fileName, markdown);
   } catch (error) {
     console.error(error);
     process.exit(0);
@@ -43,7 +43,7 @@ const overwriteFile = (title, markdown) => {
 };
 
 // 서버에서 받아온 id를 마크다운 문서에 삽입하는 함수
-export const injectId = (data, fileType) => {
+export const injectId = (fileName, data, fileType) => {
   console.log(fileType);
   if (fileType !== ADDED) {
     return;
@@ -53,7 +53,7 @@ export const injectId = (data, fileType) => {
     console.log(parsedResponse);
     const markdown = rebuildMarkdown(parsedResponse);
     console.log(markdown);
-    overwriteFile(data.title, markdown);
+    overwriteFile(fileName, markdown);
     console.log('File overwritten successfully.');
   } catch (error) {
     console.error(error);
