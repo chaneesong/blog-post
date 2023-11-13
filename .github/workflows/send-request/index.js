@@ -23,8 +23,9 @@ const main = async () => {
       const { attributes, body } = markdown;
 
       checkHeaderValidity(fileType, attributes);
-      const res = sendRequestByFileType(fileType, attributes, body);
-      injectId(fileName, res.data, fileType);
+      const resData = sendRequestByFileType(fileType, attributes, body);
+      console.log(resData);
+      injectId(fileName, resData, fileType);
     }
   } catch (error) {
     hasValidationFailed = true;

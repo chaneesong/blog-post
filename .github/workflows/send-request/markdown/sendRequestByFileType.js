@@ -21,7 +21,7 @@ const sendRequestByFileType = async (type, header, body) => {
         `${process.env.SERVER_URL}/posts/${postData.id}`
       );
     }
-    return res;
+    return res.data;
   } catch (error) {
     console.error(error);
     process.exit(1);
