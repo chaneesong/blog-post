@@ -17,6 +17,7 @@ const main = async () => {
     for (const [fileType, fileName] of pushedFiles) {
       const { stdout } = await getMarkdownContents(fileType, fileName);
       const imgIds = uploadImage(fileName);
+      console.log(imgIds);
       const modifiedMarkdownContent = changeImageUrl(stdout, imgIds);
       const markdown = frontMatter(modifiedMarkdownContent);
       const { attributes, body } = markdown;
