@@ -50,6 +50,7 @@ export const uploadImage = async (fileName) => {
     );
     const drive = getDriveAccess(oauth2Client);
     const folderId = await createFolder(drive, imgPath);
+    console.log('folderId', folderId);
     const imgIds = await uploadImageToDrive(drive, imgPath, folderId);
     return imgIds;
   } catch (error) {
