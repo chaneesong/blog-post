@@ -54,7 +54,7 @@ export const uploadImage = async (fileName) => {
     const imgIds = await uploadImageToDrive(drive, imgPath, folderId);
     return imgIds;
   } catch (error) {
-    console.error('이미지를 업로드 하는 도중 에러 발생!');
+    console.error('image upload error.');
     console.error(error);
   }
 };
