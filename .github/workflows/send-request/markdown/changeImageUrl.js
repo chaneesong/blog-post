@@ -6,6 +6,7 @@ export const changeImageUrl = (markdownText, imageIds) => {
   const modifiedMarkdownContent = markdownText.replace(regex, (match, url) => {
     const imageName = url.split('/').at(-1);
     const imageId = imageIds[imageName];
+    console.log(imageName, imageId);
     if (imageId) {
       return `![${imageName}](${process.env.PREV_IMAGE_URL}${imageId})`;
     }
