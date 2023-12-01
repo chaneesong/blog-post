@@ -11,8 +11,9 @@ const selectProperties = (response) => {
 // 헤더 객체를 통해 마크다운 헤더를 다시 만드는 함수
 const setHeader = (header) => {
   let result = '';
-  const entiry = Object.entries(header);
-  for (const value of entiry) {
+  const entry = Object.entries(header);
+  for (const value of entry) {
+    console.log(value);
     result = `${result}${value[0]}: ${value[1]}\n`;
   }
   return result.trim();
