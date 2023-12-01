@@ -1,7 +1,8 @@
 ---
+id: 20
 title: TEST FILE4
 category: 알고리즘
-tags: [leetcode]
+tags: leetcode
 ---
 
 ### [125. Vaild Palindrome](https://leetcode.com/problems/valid-palindrome/)
