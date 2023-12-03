@@ -13,8 +13,9 @@ const setHeader = (header) => {
   let result = '';
   const entry = Object.entries(header);
   for (const value of entry) {
-    console.log(value);
-    result = `${result}${value[0]}: ${value[1]}\n`;
+    result += Array.isArray(value[1])
+      ? `${value[0]}: [${value[1].join(', ')}]\n`
+      : `${value[0]}: ${value[1]}\n`;
   }
   return result.trim();
 };
