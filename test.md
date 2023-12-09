@@ -1,4 +1,5 @@
 ---
+id: 2
 title: test
 category: 알고리즘
 tags: [leetcode]
