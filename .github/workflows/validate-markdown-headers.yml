@@ -13,6 +13,10 @@ jobs:
   request:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [16]
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -30,7 +34,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
         run: npm install
@@ -50,18 +54,19 @@ jobs:
 
       - name: Get JWT
         id: get_jwt
+        env:
+          USER_ID: ${{ secrets.BLOG_USER_ID }}
+          USER_PASSWORD: ${{ secrets.BLOG_USER_PASSWORD }}
+          SERVER_URL: ${{ secrets.BLOG_SERVER_URL }}
         run: |
-          jwt=$(curl -X POST -H "Content-Type: application/json" -d '{"id": "${{ secrets.USER_ID }}", "password": "${{ secrets.USER_PASSWORD }}"}' ${{ secrets.SERVER_URL }}/auth/login | jq -r '.access_token')
+          jwt=$(curl -X POST -H "Content-Type: application/json" -d "{\"id\": \"${USER_ID}\", \"password\": \"${USER_PASSWORD}\"}" ${SERVER_URL}/auth/login | jq -r '.access_token')
           echo "JWT=$jwt" >> $GITHUB_OUTPUT
 
       - name: Send request to server
         id: request
         env:
-          SERVER_URL: ${{ secrets.SERVER_URL }}
-          GOOGLE_DRIVE_REFRESH_TOKEN: ${{ secrets.GOOGLE_DRIVE_REFRESH_TOKEN }}
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          GOOGLE_REDIRECT_URL: ${{ secrets.GOOGLE_REDIRECT_URL }}
+          SERVER_URL: ${{ secrets.BLOG_SERVER_URL }}
+          GOOGLE_DRIVE_API_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_API_CREDENTIALS }}
           GOOGLE_DRIVE_ROOT_FOLDER: ${{ secrets.GOOGLE_DRIVE_ROOT_FOLDER }}
           PREV_IMAGE_URL: ${{ secrets.PREV_IMAGE_URL }}
           JWT: ${{ steps.get_jwt.outputs.JWT }}
@@ -70,10 +75,14 @@ jobs:
           npm run send "${pushed_files}"
 
       - name: Set up Git
+        env:
+          GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
+          GIT_USER_NAME: ${{ secrets.GIT_USER_NAME }}
+          REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
         run: |
-          git config --local user.email ${{ secrets.EMAIL }}
-          git config --local user.name ${{ secrets.USER_NAME }}
-          git config --local user.password ${{ secrets.REPO_ACCESS_TOKEN }}
+          git config --local user.email $GIT_EMAIL
+          git config --local user.name $GIT_USER_NAME
+          git config --local user.password $REPO_ACCESS_TOKEN
 
       - name: Check for Markdown changes
         id: check_changed_files
@@ -96,5 +105,7 @@ jobs:
           git push
 
       - name: Send Webhook
+        env:
+          LOCAL_NGROK_ADDR: ${{ secrets.LOCAL_NGROK_ADDR }}
         run: |
-          curl -X Post -d '{"success": "true"}' ${{ secrets.NGROK }}
+          curl -X Post -d '{"success": "true"}' $LOCAL_NGROK_ADDR

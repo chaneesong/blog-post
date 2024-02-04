@@ -8,6 +8,5 @@ export const createFolder = async (drive, imagePath) => {
       mimeType: 'application/vnd.google-apps.folder',
     },
   });
-
   return file.data.id;
 };

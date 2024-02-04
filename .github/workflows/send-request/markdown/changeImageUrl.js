@@ -7,7 +7,7 @@ export const changeImageUrl = (markdownText, imageIds) => {
     const imageName = url.split('/').at(-1);
     const imageId = imageIds[imageName];
     if (imageId) {
-      return `![${imageName}](${process.env.PREV_IMAGE_URL}${imageId})`;
+      return `![${imageName}](${process.env.PREV_IMAGE_URL}${imageId}&sz=w1000-h800)`;
     }
     return match;
   });
