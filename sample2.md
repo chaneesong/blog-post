@@ -1,4 +1,5 @@
 ---
+id: 1
 title: sample2
 category: 알고리즘
 tags: [leetcode]
