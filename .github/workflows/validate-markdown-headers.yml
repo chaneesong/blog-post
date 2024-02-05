@@ -6,6 +6,10 @@ on:
     paths:
       - '**.md'
 
+env:
+  SERVER_URL: ${{ secrets.BLOG_SERVER_URL }}
+  LOCAL_SERVER_URL: ${{ secrets. LOCAL_SERVER_URL }}
+
 permissions:
   contents: write
 
@@ -23,14 +27,6 @@ jobs:
         with:
           fetch-depth: 2
 
-      # - name: Check commit message
-      #   run: |
-      #     COMMIT_MSG=$(git log --format=%B -n 1 ${{ github.sha }})
-      #     if [[ $COMMIT_MSG == *"[skip ci]"* ]]; then
-      #       echo "Commit message contains [skip ci]. Skipping workflow."
-      #       exit 0
-      #     fi
-
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -38,6 +34,13 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
+      - name: Change Server URL
+        if: ${{ !contains(github.event.head_commit.message, '[dev]') }}
+        run: |
+          echo "Setting SERVER_URL to LOCAL_SERVER_URL"
+          echo "SERVER_URL=${LOCAL_SERVER_URL}" >> $GITHUB_ENV
+          echo $SERVER_URL
 
       - name: Get pushed files
         id: get_pushed_files
@@ -57,7 +60,6 @@ jobs:
         env:
           USER_ID: ${{ secrets.BLOG_USER_ID }}
           USER_PASSWORD: ${{ secrets.BLOG_USER_PASSWORD }}
-          SERVER_URL: ${{ secrets.BLOG_SERVER_URL }}
         run: |
           jwt=$(curl -X POST -H "Content-Type: application/json" -d "{\"id\": \"${USER_ID}\", \"password\": \"${USER_PASSWORD}\"}" ${SERVER_URL}/auth/login | jq -r '.access_token')
           echo "JWT=$jwt" >> $GITHUB_OUTPUT
@@ -65,7 +67,6 @@ jobs:
       - name: Send request to server
         id: request
         env:
-          SERVER_URL: ${{ secrets.BLOG_SERVER_URL }}
           GOOGLE_DRIVE_API_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_API_CREDENTIALS }}
           GOOGLE_DRIVE_ROOT_FOLDER: ${{ secrets.GOOGLE_DRIVE_ROOT_FOLDER }}
           PREV_IMAGE_URL: ${{ secrets.PREV_IMAGE_URL }}
@@ -105,7 +106,6 @@ jobs:
           git push
 
       - name: Send Webhook
-        env:
-          LOCAL_NGROK_ADDR: ${{ secrets.LOCAL_NGROK_ADDR }}
         run: |
-          curl -X Post -d '{"success": "true"}' $LOCAL_NGROK_ADDR
+          curl -X Post -d '{"success": "true"}' $SERVER_URL
+        if: env.LOCAL_SERVER_URL == env.SERVER_URL
