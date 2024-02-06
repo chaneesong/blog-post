@@ -98,7 +98,7 @@ jobs:
           fi
 
       - name: Commit and push changes
-        if: steps.check_changed_files.outputs.md_changed == 'true'
+        if: steps.check_changed_files.outputs.md_changed == 'true' && ${{ !contains(github.event.head_commit.message, '[dev]') }}
         run: |
           git add .
           git commit -m "[skip ci] Inject Post ID"
@@ -107,4 +107,4 @@ jobs:
       - name: Send Webhook
         run: |
           curl -X Post -d '{"success": "true"}' $SERVER_URL
-        if: env.LOCAL_SERVER_URL == env.SERVER_URL
+        if: env.LOCAL_SERVER_URL != env.SERVER_URL
