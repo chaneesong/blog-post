@@ -98,7 +98,7 @@ jobs:
           fi
 
       - name: Commit and push changes
-        if: steps.check_changed_files.outputs.md_changed == 'true' && ${{ !contains(github.event.head_commit.message, '[dev]') }}
+        if: steps.check_changed_files.outputs.md_changed == 'true'
         run: |
           git add .
           git commit -m "[skip ci] Inject Post ID"
