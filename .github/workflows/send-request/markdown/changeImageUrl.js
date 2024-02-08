@@ -13,5 +13,7 @@ export const changeImageUrl = (markdownText, imageIds) => {
     return match;
   });
 
+  console.log(modifiedMarkdownContent);
+
   return modifiedMarkdownContent;
 };
