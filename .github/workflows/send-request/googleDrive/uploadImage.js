@@ -38,16 +38,15 @@ const uploadImageToDrive = async (drive, imagePath, folderId) => {
 export const uploadImage = async (fileName) => {
   const googleDriveAPICredentials = process.env.GOOGLE_DRIVE_API_CREDENTIALS;
   console.log(fileName);
-  const imgFullPath = fileName.split('.')[0];
-  const imgDirName = imgFullPath.split('/')[1];
+  const imgPath = fileName.split('.')[0];
 
-  if (!existsSync(imgFullPath)) return null;
+  if (!existsSync(imgPath)) return null;
 
   try {
     const drive = await getGoogleDriveAccess(googleDriveAPICredentials);
-    const folderId = await createFolder(drive, imgDirName);
+    const folderId = await createFolder(drive, imgPath);
     console.log('folderId', folderId);
-    const imgIds = await uploadImageToDrive(drive, imgFullPath, folderId);
+    const imgIds = await uploadImageToDrive(drive, imgPath, folderId);
     console.log('imageId', imgIds);
     return imgIds;
   } catch (error) {
