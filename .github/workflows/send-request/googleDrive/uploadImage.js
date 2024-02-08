@@ -37,7 +37,6 @@ const uploadImageToDrive = async (drive, imagePath, folderId) => {
 // 이미지를 업로드 하는 함수 로직
 export const uploadImage = async (fileName) => {
   const googleDriveAPICredentials = process.env.GOOGLE_DRIVE_API_CREDENTIALS;
-  console.log(fileName);
   const imgPath = fileName.split('.')[0];
 
   if (!existsSync(imgPath)) return null;
@@ -45,9 +44,7 @@ export const uploadImage = async (fileName) => {
   try {
     const drive = await getGoogleDriveAccess(googleDriveAPICredentials);
     const folderId = await createFolder(drive, imgPath);
-    console.log('folderId', folderId);
     const imgIds = await uploadImageToDrive(drive, imgPath, folderId);
-    console.log('imageId', imgIds);
     return imgIds;
   } catch (error) {
     console.error('image upload error.');
