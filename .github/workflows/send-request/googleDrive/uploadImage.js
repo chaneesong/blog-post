@@ -39,6 +39,7 @@ export const uploadImage = async (fileName) => {
   const googleDriveAPICredentials = process.env.GOOGLE_DRIVE_API_CREDENTIALS;
 
   const imgPath = parseImageName(fileName).name;
+  console.log('image path', imgPath);
 
   if (!existsSync(imgPath)) return null;
 

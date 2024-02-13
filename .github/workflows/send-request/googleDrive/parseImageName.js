@@ -4,8 +4,13 @@ export const parseImageName = (imgName) => {
   const imgPath = splitedImgPath.reduce((a, c, idx) => {
     return idx < splitedImgPath.length - 1 ? a + c : a;
   }, '');
+  console.log(
+    'parseImageName',
+    imgPath,
+    splitedImgPath[splitedImgPath.length - 1]
+  );
   return {
     name: imgPath,
-    ext: splitedImgPath.at[splitedImgPath.length - 1],
+    ext: splitedImgPath[splitedImgPath.length - 1],
   };
 };
