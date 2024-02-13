@@ -37,7 +37,10 @@ const uploadImageToDrive = async (drive, imagePath, folderId) => {
 // 이미지를 업로드 하는 함수 로직
 export const uploadImage = async (fileName) => {
   const googleDriveAPICredentials = process.env.GOOGLE_DRIVE_API_CREDENTIALS;
-  const imgPath = fileName.split('.')[0];
+  const splitedImgPath = fileName.split('.');
+  const imgPath = splitedImgPath.reduce((a, c) => {
+    return a + c;
+  }, '');
 
   if (!existsSync(imgPath)) return null;
 
