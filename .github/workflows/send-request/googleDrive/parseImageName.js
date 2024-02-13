@@ -2,7 +2,7 @@
 export const parseImageName = (imgName) => {
   const splitedImgPath = imgName.split('.');
   const imgPath = splitedImgPath.reduce((a, c, idx) => {
-    return idx < splitedImgPath.length - 1 ? a + c : a;
+    return idx < splitedImgPath.length - 1 ? a + '.' + c : a;
   }, '');
   console.log(
     'parseImageName',
