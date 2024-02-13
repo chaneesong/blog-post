@@ -1,9 +1,7 @@
 // 이미지명과 확장자를 분리하는 함수
 export const parseImageName = (imgName) => {
   const splitedImgPath = imgName.split('.');
-  const imgPath = splitedImgPath.reduce((a, c, idx) => {
-    return idx < splitedImgPath.length - 1 ? a + '.' + c : a;
-  }, '');
+  const imgPath = splitedImgPath.join('.').slice(0, splitedImgPath.length - 1);
   console.log(
     'parseImageName',
     imgPath,
