@@ -1,4 +1,5 @@
 ---
+id: 2
 title: 환경변수 관리 고군분투 feat.DOPPLER
 category: 개발 도구
 tags: [환경변수, 보안]
