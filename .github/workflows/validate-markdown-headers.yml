@@ -101,7 +101,7 @@ jobs:
         if: steps.check_changed_files.outputs.md_changed == 'true'
         run: |
           git add .
-          git commit -m "[skip ci] Inject Post ID"
+          git commit -m "[skip ci] Inject Post ID & Image Path"
           git push
 
       - name: Send Webhook
