@@ -1,4 +1,5 @@
 ---
+id: 3
 title: 컨테이너에 환경변수 주입 feat.Doppler
 category: 개발 도구
 tags: [환경변수, 보안]
