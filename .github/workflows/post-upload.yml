@@ -1,0 +1,104 @@
+name: Post Upload for Production
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.md'
+
+env:
+  SERVER_URL: ${{ secrets.BLOG_SERVER_URL }}
+
+permissions:
+  contents: write
+
+jobs:
+  request:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: |
+          git config --global core.quotepath false
+          npm install --production
+
+      - name: Get pushed files
+        id: get_pushed_files
+        run: |
+          pushed_files=$(git diff-tree --no-commit-id --name-status -r ${{ github.sha }})
+
+          echo ${pushed_files}
+
+          # set multiline output parameter
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "PUSHED_FILES<<$EOF" >> "$GITHUB_OUTPUT"
+          echo "${pushed_files}" >> "$GITHUB_OUTPUT"
+          echo "$EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Get JWT
+        id: get_jwt
+        env:
+          USER_ID: ${{ secrets.BLOG_USER_ID }}
+          USER_PASSWORD: ${{ secrets.BLOG_USER_PASSWORD }}
+        run: |
+          jwt=$(curl -X POST -H "Content-Type: application/json" -d "{\"id\": \"${USER_ID}\", \"password\": \"${USER_PASSWORD}\"}" ${SERVER_URL}/auth/login | jq -r '.access_token')
+          echo "JWT=$jwt" >> $GITHUB_OUTPUT
+
+      - name: Send request to server
+        id: request
+        env:
+          GOOGLE_DRIVE_API_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_API_CREDENTIALS }}
+          GOOGLE_DRIVE_ROOT_FOLDER: ${{ secrets.GOOGLE_DRIVE_ROOT_FOLDER }}
+          PREV_IMAGE_URL: ${{ secrets.PREV_IMAGE_URL }}
+          JWT: ${{ steps.get_jwt.outputs.JWT }}
+        run: |
+          pushed_files="${{ steps.get_pushed_files.outputs.PUSHED_FILES}}"
+          npm run send "${pushed_files}"
+
+      - name: Set up Git
+        env:
+          GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
+          GIT_USER_NAME: ${{ secrets.GIT_USER_NAME }}
+          REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+        run: |
+          git config --local user.email $GIT_EMAIL
+          git config --local user.name $GIT_USER_NAME
+          git config --local user.password $REPO_ACCESS_TOKEN
+
+      - name: Check for Markdown changes
+        id: check_changed_files
+        run: |
+          changed_files=$(git diff --name-only HEAD HEAD^ | grep -E '\.md$')
+
+          if [ -n "$changed_files" ]; then
+            echo "Markdown files changed"
+            echo "md_changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "No Markdown files changed"
+            echo "md_changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.check_changed_files.outputs.md_changed == 'true'
+        run: |
+          git add .
+          git commit -m "[skip ci] Inject Post ID & Image Path"
+          git push
+
+      - name: Send Webhook
+        run: |
+          curl -X POST -d '{"success": "true"}' $SERVER_URL
