@@ -1,38 +1,60 @@
 #!/bin/bash
 
-success_file="success.txt"
+express_timeout=10
+ngrok_timeout=10
+server_running=false
 
->"$success_file"
+yarn start >output.log 2>&1 &
 
-(cd response && yarn start) >/dev/null 2>&1 &
+while [ $express_timeout -gt 0 ]; do
+  echo 'express 서버 실행중 ...'
+  if curl -s http://localhost:8080 >/dev/null; then
+    server_running=true
+    break
+  fi
 
-ngrok start chaneesong >/dev/null 2>&1 &
+  sleep 1
+  ((express_timeout--))
+done
 
-sleep 5
+express_pid=$(lsof -PiTCP -sTCP:LISTEN | grep node | awk '{print $2}')
+
+if [ "$server_running" = true ]; then
+  echo "express 서버가 $express_pid 에서 실행 중입니다."
+else
+  echo "express 서버 실행을 실패했습니다."
+  exit 1
+fi
+
+ngrok start blog >/dev/null 2>&1 &
+
+while [ $ngrok_timeout -gt 0 ]; do
+  echo 'ngrok 실행중 ...'
+  if curl -s http://localhost:8080 >/dev/null; then
+    server_running=true
+    break
+  fi
+
+  sleep 1
+  ((ngrok_timeout--))
+done
 
 ngrok_pid=$(ps aux | grep ngrok | grep start | awk '{print $2}')
-nestjs_pid=$(lsof -PiTCP -sTCP:LISTEN | grep node | awk '{print $2}')
 
-if [ -n "$ngrok_pid" ]; then
+if [ "$server_running" = true ]; then
   echo "ngrok이 $ngrok_pid 에서 실행 중입니다."
 else
-  echo "ngrok 프로세스를 찾을 수 없습니다."
+  echo "ngrok 서버 실행을 실패했습니다."
+  kill -15 $express_pid
+  exit 1
 fi
 
-if [ -n "$nestjs_pid" ]; then
-  echo "nestjs 서버가 $nestjs_pid 에서 실행 중입니다."
-else
-  echo "nestjs 서버를 찾을 수 없습니다."
-fi
+event=$(fswatch -1 "output.log")
 
-event=$(fswatch -1 "$success_file")
-
-if [ -s "$success_file" ]; then
-  git pull origin main
-  >"$success_file"
-fi
+echo 'git pull 진행중 ...'
+git pull origin main
 
 kill -15 $ngrok_pid
-kill -15 $nestjs_pid
+kill -15 $express_pid
 
 echo "모든 동작이 완료되었습니다."

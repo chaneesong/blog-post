@@ -4,3 +4,4 @@ package-lock.json
 response/
 *.secrets
 .DS_Store
+output.log

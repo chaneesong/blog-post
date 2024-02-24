@@ -5,7 +5,9 @@
   "type": "module",
   "main": "validate-markdown-headers.js",
   "scripts": {
-    "send": "node .github/workflows/send-request/index.js $1"
+    "send": "node .github/workflows/post-upload/index.js $1",
+    "dev": "node .github/workflows/post-upload-local/index.js $1",
+    "start": "ts-node ./src/index.ts"
   },
   "repository": {
     "type": "git",
@@ -20,10 +22,14 @@
   "dependencies": {
     "axios": "^1.4.0",
     "front-matter": "^4.0.2",
-    "googleapis": "105",
-    "ts-node": "^10.9.1"
+    "googleapis": "105"
   },
   "devDependencies": {
-    "dotenv": "^16.3.1"
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.20",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   }
 }
