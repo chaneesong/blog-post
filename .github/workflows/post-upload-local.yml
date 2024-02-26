@@ -1,0 +1,71 @@
+name: Post Upload for Local
+on:
+  push:
+    branches:
+      - '*'
+      - '!main'
+    paths:
+      - '**.md'
+
+env:
+  SERVER_URL: ${{ secrets.LOCAL_SERVER_URL }}
+
+jobs:
+  request:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: |
+          git config --global core.quotepath false
+          npm install --production
+
+      - name: Get pushed files
+        id: get_pushed_files
+        run: |
+          pushed_files=$(git diff-tree --no-commit-id --name-status -r ${{ github.sha }})
+
+          echo ${pushed_files}
+
+          # set multiline output parameter
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "PUSHED_FILES<<$EOF" >> "$GITHUB_OUTPUT"
+          echo "${pushed_files}" >> "$GITHUB_OUTPUT"
+          echo "$EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Get JWT
+        id: get_jwt
+        env:
+          USER_ID: ${{ secrets.BLOG_USER_ID }}
+          USER_PASSWORD: ${{ secrets.BLOG_USER_PASSWORD }}
+        run: |
+          jwt=$(curl -X POST -H "Content-Type: application/json" -d "{\"id\": \"${USER_ID}\", \"password\": \"${USER_PASSWORD}\"}" ${SERVER_URL}/auth/login | jq -r '.access_token')
+          echo "JWT=$jwt" >> $GITHUB_OUTPUT
+
+      - name: Send request to server
+        id: request
+        env:
+          PREV_IMAGE_URL: ${{ secrets.PREV_IMAGE_URL }}
+          SAMPLE_IMAGE_URL: ${{ secrets.SAMPLE_IMAGE_ID }}
+          JWT: ${{ steps.get_jwt.outputs.JWT }}
+        run: |
+          pushed_files="${{ steps.get_pushed_files.outputs.PUSHED_FILES}}"
+          npm run dev "${pushed_files}"
+
+      - name: Send Webhook
+        run: |
+          curl -X POST -d '{"success": "true"}' $SERVER_URL
