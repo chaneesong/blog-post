@@ -53,7 +53,9 @@ jobs:
           USER_ID: ${{ secrets.BLOG_USER_ID }}
           USER_PASSWORD: ${{ secrets.BLOG_USER_PASSWORD }}
         run: |
-          jwt=$(curl -X POST -H "Content-Type: application/json" -d "{\"id\": \"${USER_ID}\", \"password\": \"${USER_PASSWORD}\"}" ${SERVER_URL}/auth/login | jq -r '.access_token')
+          jwt=$(curl -X POST -H "Content-Type: application/json" \
+            -d "{\"id\": \"${USER_ID}\", \"password\": \"${USER_PASSWORD}\"}" \
+            ${SERVER_URL}/auth/login | jq -r '.access_token')
           echo "JWT=$jwt" >> $GITHUB_OUTPUT
 
       - name: Send request to server
