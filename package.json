@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/chaneesong/blog-post#readme",
   "dependencies": {
-    "axios": "^1.4.0",
+    "axios": "^1.6.7",
     "front-matter": "^4.0.2",
     "googleapis": "105"
   },
