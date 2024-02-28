@@ -70,4 +70,4 @@ jobs:
 
       - name: Send Webhook
         run: |
-          curl -X POST -d '{"success": "true"}' $SERVER_URL
+          curl $SERVER_URL
